@@ -15,5 +15,12 @@
   "bugs": {
     "url": "https://github.com/sdc-lannister/questions-and-answers/issues"
   },
-  "homepage": "https://github.com/sdc-lannister/questions-and-answers#readme"
+  "homepage": "https://github.com/sdc-lannister/questions-and-answers#readme",
+  "dependencies": {
+    "dotenv": "^16.0.1",
+    "pg": "^8.7.3"
+  },
+  "devDependencies": {
+    "benny": "^3.7.1"
+  }
 }
