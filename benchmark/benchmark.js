@@ -38,7 +38,7 @@ const generateMessage = (
   return `| ${nameMessage} | ${meanMessage}s +/- ${standardErrorMessage} |`;
 };
 
-const generateOutput = (funcs, times, iterations, clients) => {
+const generateOutput = (funcs, times, iterations, clients, benchLength) => {
   const scaledTimes = times.map((timeArray) => timeArray.map((time) => time / 1000));
   const means = scaledTimes.map((timeArray) => calculateMean(timeArray));
   const standardErrors = scaledTimes.map((timeArray) => calculateStandardError(timeArray));
@@ -55,10 +55,10 @@ const generateOutput = (funcs, times, iterations, clients) => {
     message += generateMessage(funcs[i].name, nameLength, means[i], meanLength, standardErrors[i], standardErrorLength, precision) + '\n';
   }
 
-  return message + bars + `\niterations: ${iterations}   clients: ${clients}`;
+  return message + bars + `\niterations: ${iterations}   clients: ${clients}   total time: ${benchLength.toFixed(1)}min`;
 };
 
-const randomIds = [...Array(1e4)].map(() => Math.floor(Math.random() * 1e6));
+const randomIds = [...Array(1e6)].map(() => Math.floor(Math.random() * 1e6));
 
 //options:
   //iterations
@@ -77,7 +77,9 @@ module.exports = async (
   const productIds = randomIds.slice(options.iterations * options.clients);
   const times = Array.from(Array(funcs.length), () => []);
 
+  const benchStart = performance.now();
   for (let i =  0; i < options.iterations; i++) {
+    const iterationStart = performance.now();
     const iterationProductIds = productIds.slice(i * options.clients, (i + 1) * options.clients)
 
     for (let j = 0; j < funcs.length; j++) {
@@ -88,8 +90,14 @@ module.exports = async (
       const t1 = performance.now();
       times[j].push(t1 - t0);
     }
-    console.log(`Iteration ${i + 1}/${options.iterations} completed`);
+    const iterationEnd = performance.now();
+    const iterationLength = (iterationEnd - iterationStart) / 1000;
+    const currentBenchLength = (iterationEnd - benchStart) / (60 * 1000);
+
+    console.log(`Iteration ${i + 1}/${options.iterations} took ${iterationLength.toFixed(3)}s (total time: ${currentBenchLength.toFixed(0)}min)`);
   }
-  const output = generateOutput(funcs, times, options.iterations, options.clients);
+  const benchEnd = performance.now();
+  const benchLength = (benchEnd - benchStart) / (60 * 1000);
+  const output = generateOutput(funcs, times, options.iterations, options.clients, benchLength);
   console.log(output);
 };

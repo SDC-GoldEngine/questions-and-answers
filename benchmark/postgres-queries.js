@@ -92,6 +92,6 @@ const funcs = [
 ];
 
 benchmark(funcs, {
-  iterations: 1000,
-  clients: 1000,
+  iterations: 10,
+  clients: 100,
 });
