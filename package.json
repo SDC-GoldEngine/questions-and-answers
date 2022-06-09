@@ -1,0 +1,26 @@
+{
+  "name": "sdc-questions-and-answers",
+  "version": "1.0.0",
+  "description": "The questions and answers service for SDC.",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sdc-lannister/questions-and-answers.git"
+  },
+  "author": "Shannon Largman shannon.largman@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sdc-lannister/questions-and-answers/issues"
+  },
+  "homepage": "https://github.com/sdc-lannister/questions-and-answers#readme",
+  "dependencies": {
+    "dotenv": "^16.0.1",
+    "pg": "^8.7.3"
+  },
+  "devDependencies": {
+    "benny": "^3.7.1"
+  }
+}
