@@ -21,6 +21,5 @@
     "pg": "^8.7.3"
   },
   "devDependencies": {
-    "benny": "^3.7.1"
   }
 }
