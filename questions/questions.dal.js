@@ -119,6 +119,58 @@ module.insertAnswer = async (questionId, body, name, email, photos) => {
   return result;
 };
 
-module.incrementHelpfulness = async (table, id) => {};
+module.incrementQuestionHelpfulness = async (questionId) => {
+  const result = await db.query(
+    `
+    UPDATE questions
+      SET question_helpfulness = question_helpfulness + 1
+      WHERE question_id = $1;
+  `,
+    [questionId],
+  );
 
-module.report = async (table, id) => {};
+  // TODO: what to return?
+  return result;
+};
+
+module.incrementAnswerHelpfulness = async (answerId) => {
+  const result = await db.query(
+    `
+    UPDATE answers
+      SET helpfulness = helpfulness + 1
+      WHERE answer_id = $1;
+  `,
+    [answerId],
+  );
+
+  // TODO: what to return?
+  return result;
+};
+
+module.reportQuestion = async (answerId) => {
+  const result = await db.query(
+    `
+    UPDATE answers
+      SET reported = TRUE;
+      WHERE answer_id = $1;
+  `,
+    [answerId],
+  );
+
+  // TODO: what to return?
+  return result;
+};
+
+module.reportAnswer = async (answerId) => {
+  const result = await db.query(
+    `
+    UPDATE answers
+      SET reported = TRUE;
+      WHERE answer_id = $1;
+  `,
+    [answerId],
+  );
+
+  // TODO: what to return?
+  return result;
+};
