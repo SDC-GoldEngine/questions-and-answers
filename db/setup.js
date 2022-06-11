@@ -7,12 +7,12 @@ module.exports = async () => {
 
   try {
     await client.connect();
-    await client.query(`DROP DATABASE IF EXISTS ${process.env.PGDATABASE};`)
-    await client.query(`CREATE DATABASE ${process.env.PGDATABASE};`)
-    await client.end()
-    console.log(`Database ${process.env.PGDATABASE} created.`)
+    await client.query(`DROP DATABASE IF EXISTS ${process.env.PGDATABASE};`);
+    await client.query(`CREATE DATABASE ${process.env.PGDATABASE};`);
+    await client.end();
+    console.log(`Database ${process.env.PGDATABASE} created.`);
 
-    const pool = new Pool()
+    const pool = new Pool();
 
     await pool.query(`
       CREATE TABLE IF NOT EXISTS questions(
@@ -87,7 +87,9 @@ module.exports = async () => {
       CREATE INDEX answers_date_index ON answers (date DESC);
       CREATE INDEX answers_photos_answer_id_index ON answers_photos (answer_id);
       `);
-    console.log(`Constraints placed on tables questions and answers.\nColumns questions.question_date and answers.date converted to type timestamp.\nIndexes created on ids and dates.`);
+    console.log(
+      'Constraints placed on tables questions and answers.\nColumns questions.question_date and answers.date converted to type timestamp.\nIndexes created on ids and dates.',
+    );
   } catch (error) {
     console.log(`Failed to create database ${process.env.PGDATABASE}:`, error);
   }

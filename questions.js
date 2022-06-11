@@ -1,7 +1,8 @@
 const db = require('./db');
 
 const singleQuery = async (productId) => {
-  const result = await db.query(`
+  const result = await db.query(
+    `
     SELECT * FROM (
       SELECT 
         product_id,
@@ -32,9 +33,10 @@ const singleQuery = async (productId) => {
       answers_photos ap
     ON ap.answer_id = a.answer_id
     ORDER BY question_date DESC, date DESC;
-  `, [productId]);
+  `,
+    [productId],
+  );
 
-  const questions = result.rows
+  const questions = result.rows;
   return questions;
 };
-
