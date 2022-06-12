@@ -49,7 +49,7 @@ module.queryQuestionsByProductId = async (productId, count, page) => {
 module.queryAnswersByQuestionId = async (questionId, count, page) => {
   const answers = await db.query(
     `
-   SELECT 
+    SELECT 
       a.id AS answer_id,
       a.body,
       a.date,
@@ -70,7 +70,7 @@ module.queryAnswersByQuestionId = async (questionId, count, page) => {
       a.date DESC,
       a.id ASC,
       ap.id ASC;
-  `,
+    `,
     [questionId, count, (page - 1) * count],
   );
 
@@ -86,24 +86,11 @@ module.insertQuestion = async (productId, body, name, email) => {
       name,
       email
     ) VALUES ($1, $2, $3, $4);
-  `,
+    `,
     [productId, body, name, email],
   );
 
   return result.rowCount;
-};
-
-const photoValues = (photos) => {
-  if (photos.length === 0) {
-    return '';
-  }
-
-  return `INSERT INTO answers_photos (
-    answer_id,
-    url
-  ) VALUES
-    ${photos.map((photo) => `(inserted_answer.id, '${photo}')`).join(',')};
-  `;
 };
 
 module.insertAnswer = async (questionId, body, name, email, photos) => {
@@ -146,30 +133,15 @@ module.incrementHelpfulness = async (table, id) => {
   return result.rowCount;
 };
 
-module.reportQuestion = async (answerId) => {
+module.report = async (table, id) => {
   const result = await db.query(
     `
-    UPDATE answers
-      SET reported = TRUE;
-      WHERE answer_id = $1;
+    UPDATE ${table}
+      SET reported = TRUE
+      WHERE id = $1;
   `,
-    [answerId],
+    [id],
   );
 
-      q.helpfulness AS question_helpfulness,
-  return result;
-};
-
-module.reportAnswer = async (answerId) => {
-  const result = await db.query(
-    `
-
-  const questions = await db.query(
-      WHERE answer_id = $1;
-  `,
-    [answerId],
-  );
-
-  // TODO: what to return?
-  return result;
+  return result.rowCount;
 };
