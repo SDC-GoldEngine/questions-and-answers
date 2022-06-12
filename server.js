@@ -89,6 +89,10 @@ app.post('/qa/answers/:answer_id/report', async (req, res) => {
   res.sendStatus(204);
 });
 
+app.all('*', (req, res) => {
+  res.sendStatus(404);
+});
+
 app.listen(process.env.PORT, () => {
   console.log(
     `Questions & Answers service listening on port ${process.env.PORT}...`,
