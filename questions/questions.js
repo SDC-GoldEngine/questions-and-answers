@@ -1,21 +1,24 @@
-module.exports = class Questions {
-  constructor(rows) {
+module.exports = (rows) => {
+    const questions = [];
+    const i = -1;
+
     for (const row of rows) {
-      if (!this[row.question_id]) {
-        this[row.question_id] = {
+      if (questions[i]?.question_id !== row.question_id) {
+        i++;
+        questions[i] = {
           question_id: row.question_id,
           question_body: row.question_body,
           question_date: row.question_date,
           asker_name: row.asker_name,
-          question_helpfulness: row.helpfulness,
+          question_helpfulness: row.question_helpfulness,
           reported: false,
           answers: {},
         };
       }
 
       if (row.answer_id) {
-        if (!this.answers[row.answer_id]) {
-          this[row.question_id].answers[row.answer_id] = {
+        if (!questions[i].answers[row.answer_id]) {
+          questions[i].answers[row.answer_id] = {
             id: row.answer_id,
             body: row.body,
             date: row.date,
@@ -26,7 +29,7 @@ module.exports = class Questions {
         }
 
         if (row.id) {
-          this[row.question_id].answers[row.answer_id].photos.push({
+          questions[i].answers[row.answer_id].photos.push({
             id: row.id,
             url: row.url,
           });
