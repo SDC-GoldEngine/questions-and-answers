@@ -1,6 +1,6 @@
 const db = require('../db');
 
-module.queryQuestionsByProductId = async (productId, count, page) => {
+module.exports.queryQuestionsByProductId = async (productId, count, page) => {
   const questions = await db.query(
     `
     SELECT 
@@ -46,7 +46,7 @@ module.queryQuestionsByProductId = async (productId, count, page) => {
   return questions.rows;
 };
 
-module.queryAnswersByQuestionId = async (questionId, count, page) => {
+module.exports.queryAnswersByQuestionId = async (questionId, count, page) => {
   const answers = await db.query(
     `
     SELECT 
@@ -77,7 +77,7 @@ module.queryAnswersByQuestionId = async (questionId, count, page) => {
   return answers.rows;
 };
 
-module.insertQuestion = async (productId, body, name, email) => {
+module.exports.insertQuestion = async (productId, body, name, email) => {
   const result = await db.query(
     `
     INSERT INTO questions (
@@ -93,7 +93,7 @@ module.insertQuestion = async (productId, body, name, email) => {
   return result.rowCount;
 };
 
-module.insertAnswer = async (questionId, body, name, email, photos) => {
+module.exports.insertAnswer = async (questionId, body, name, email, photos) => {
   const result = await db.query(
     `
     WITH inserted_answer AS (
@@ -120,7 +120,7 @@ module.insertAnswer = async (questionId, body, name, email, photos) => {
   return result.rowCount;
 };
 
-module.incrementHelpfulness = async (table, id) => {
+module.exports.incrementHelpfulness = async (table, id) => {
   const result = await db.query(
     `
     UPDATE ${table}
@@ -133,7 +133,7 @@ module.incrementHelpfulness = async (table, id) => {
   return result.rowCount;
 };
 
-module.report = async (table, id) => {
+module.exports.report = async (table, id) => {
   const result = await db.query(
     `
     UPDATE ${table}
