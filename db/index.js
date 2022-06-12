@@ -1,4 +1,3 @@
-require('dotenv').config();
 const { Pool } = require('pg');
 const setupDb = require('./setup.js');
 
@@ -9,9 +8,11 @@ let pool;
     pool = new Pool();
 
     // check for existence of tables
-    const queryText = `SELECT $1::regclass`;
-    await Promise.all(['questions', 'answers', 'answers_photos']
-      .map(async (table) => await pool.query(queryText, [table]))
+    const queryText = 'SELECT $1::regclass';
+    await Promise.all(
+      ['questions', 'answers', 'answers_photos'].map(
+        async (table) => await pool.query(queryText, [table]),
+      ),
     );
   } catch (error) {
     console.log(error);
@@ -23,7 +24,5 @@ let pool;
 })();
 
 module.exports = {
-  query: async (text, params) => {
-    return await pool.query(text, params)
-  },
-}
+  query: async (text, params) => await pool.query(text, params),
+};

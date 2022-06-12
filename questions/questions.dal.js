@@ -38,7 +38,7 @@ module.exports.queryQuestionsByProductId = async (productId, count, page) => {
       q.id ASC,
       a.date DESC,
       a.id ASC,
-      ap.id DESC;
+      ap.id ASC;
   `,
     [productId, count, (page - 1) * count],
   );
