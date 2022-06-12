@@ -1,41 +1,39 @@
 const db = require('../db');
 
-module.queryQuestionsByProductId = async (productId, page, count) => {
+module.queryQuestionsByProductId = async (productId, count, page) => {
   const questions = await db.query(
     `
-    SELECT * FROM (
-      SELECT 
-        product_id,
-        question_id,
-        question_body,
-        question_date,
-        asker_name,
-        question_helpfulness,
-        reported
-      FROM questions
+    SELECT 
+      q.product_id,
+      q.id AS question_id,
+      q.body AS question_body,
+      q.date AS question_date,
+      q.name AS asker_name,
+      q.helpfulness AS question_helpfulness,
+      a.id AS answer_id,
+      a.body,
+      a.date,
+      a.name AS answerer_name,
+      a.helpfulness AS helpfulness,
+      ap.id,
+      ap.url
+    FROM (
+      SELECT * FROM questions
         WHERE
           product_id = $1
           AND reported = FALSE
-      ORDER BY question_date DESC
+      ORDER BY date DESC
       LIMIT $2
       OFFSET $3
     ) q
-    INNER JOIN (
-      SELECT
-        question_id,
-        answer_id,
-        body,
-        date,
-        answerer_name,
-        helpfulness
-      FROM answers
+    LEFT JOIN (
+      SELECT * FROM answers
         WHERE reported = FALSE
     ) a
-    ON a.question_id = q.question_id
-    INNER JOIN
-      answers_photos ap
-    ON ap.answer_id = a.answer_id
-    ORDER BY question_date DESC, date DESC;
+      ON a.question_id = q.id
+    LEFT JOIN answers_photos ap
+      ON ap.answer_id = a.id
+    ORDER BY q.date DESC, a.date DESC;
   `,
     [productId, count, (page - 1) * count],
   );
@@ -43,7 +41,7 @@ module.queryQuestionsByProductId = async (productId, page, count) => {
   return questions.rows;
 };
 
-module.queryAnswersByQuestionId = async (questionId, page, count) => {
+module.queryAnswersByQuestionId = async (questionId, count, page) => {
   const answers = await db.query(
     `
     SELECT * FROM (
@@ -130,22 +128,22 @@ module.incrementQuestionHelpfulness = async (questionId) => {
   );
 
   // TODO: what to return?
-  return result;
+  FROM;
 };
-
-module.incrementAnswerHelpfulness = async (answerId) => {
+id,
+(module.incrementAnswerHelpfulness = async (answerId) => {
   const result = await db.query(
     `
     UPDATE answers
-      SET helpfulness = helpfulness + 1
-      WHERE answer_id = $1;
+        WHERE reported = FALSE
+      FROM answers
   `,
     [answerId],
   );
 
   // TODO: what to return?
   return result;
-};
+});
 
 module.reportQuestion = async (answerId) => {
   const result = await db.query(
@@ -157,15 +155,15 @@ module.reportQuestion = async (answerId) => {
     [answerId],
   );
 
-  // TODO: what to return?
+      q.helpfulness AS question_helpfulness,
   return result;
 };
 
 module.reportAnswer = async (answerId) => {
   const result = await db.query(
     `
-    UPDATE answers
-      SET reported = TRUE;
+
+  const questions = await db.query(
       WHERE answer_id = $1;
   `,
     [answerId],
