@@ -1,30 +1,37 @@
-module.exports = class Question {
+module.exports = class Questions {
   constructor(rows) {
-    this.product_id = rows[0].product_id;
-    this.question_id = rows[0].question_id;
-    this.question_body = rows[0].question_body;
-    this.question_date = rows[0].question_date;
-    this.asker_name = rows[0].asker_name;
-    this.question_helpfulness = rows[0].question_helpfulness;
-    this.reported = false;
-    this.answers = {};
-
     for (const row of rows) {
-      if (!this.answers[row.answer_id]) {
-        this.answers[row.answer_id] = {
-          id: row.answer_id,
-          body: row.body,
-          date: row.date,
-          answerer_name: row.answerer_name,
-          helpfulness: row.helpfulness,
-          photos: [],
-        }
+      if (!this[row.question_id]) {
+        this[row.question_id] = {
+          question_id: row.question_id,
+          question_body: row.question_body,
+          question_date: row.question_date,
+          asker_name: row.asker_name,
+          question_helpfulness: row.helpfulness,
+          reported: false,
+          answers: {},
+        };
       }
 
-      this.answers[row.answer_id].photos.push({
-        id: row.id,
-        url: row.url,
-      })
+      if (row.answer_id) {
+        if (!this.answers[row.answer_id]) {
+          this[row.question_id].answers[row.answer_id] = {
+            id: row.answer_id,
+            body: row.body,
+            date: row.date,
+            answerer_name: row.answerer_name,
+            helpfulness: row.helpfulness,
+            photos: [],
+          };
+        }
+
+        if (row.id) {
+          this[row.question_id].answers[row.answer_id].photos.push({
+            id: row.id,
+            url: row.url,
+          });
+        }
+      }
     }
   }
 };
