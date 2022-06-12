@@ -90,7 +90,6 @@ module.insertQuestion = async (productId, body, name, email) => {
     [productId, body, name, email],
   );
 
-  // TODO: what to return?
   return result.rowCount;
 };
 
@@ -102,28 +101,36 @@ const photoValues = (photos) => {
   return `INSERT INTO answers_photos (
     answer_id,
     url
-  ) VALUES ${photos.map((photo) => `(inserted_id, '${photo}')`)};
+  ) VALUES
+    ${photos.map((photo) => `(inserted_answer.id, '${photo}')`).join(',')};
   `;
 };
 
 module.insertAnswer = async (questionId, body, name, email, photos) => {
   const result = await db.query(
     `
-    INSERT INTO answers (
-      question_id,
-      body,
-      answerer_name,
-      answerer_email
-    ) VALUES ($1, $2, $3, $4)
-    RETURNING answer_id INTO inserted_id;
-
-    ${photoValues(photos)}
+    WITH inserted_answer AS (
+      INSERT INTO answers (
+        question_id,
+        body,
+        name,
+        email
+      ) VALUES ($1, $2, $3, $4)
+      RETURNING id
+    )
+    INSERT INTO answers_photos (
+      answer_id,
+      url
+    )
+    SELECT * FROM
+      (SELECT id AS answer_id FROM inserted_answer) ia
+      CROSS JOIN
+      unnest($5::text[]) url;
     `,
-    [questionId, body, name, email],
+    [questionId, body, name, email, photos],
   );
 
-  // TODO: what to return?
-  return result;
+  return result.rowCount;
 };
 
 module.incrementQuestionHelpfulness = async (questionId) => {
@@ -137,10 +144,10 @@ module.incrementQuestionHelpfulness = async (questionId) => {
   );
 
   // TODO: what to return?
-  FROM;
+  return result;
 };
-id,
-(module.incrementAnswerHelpfulness = async (answerId) => {
+
+module.incrementAnswerHelpfulness = async (answerId) => {
   const result = await db.query(
     `
     UPDATE answers
