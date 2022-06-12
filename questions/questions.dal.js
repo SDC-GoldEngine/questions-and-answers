@@ -133,33 +133,18 @@ module.insertAnswer = async (questionId, body, name, email, photos) => {
   return result.rowCount;
 };
 
-module.incrementQuestionHelpfulness = async (questionId) => {
+module.incrementHelpfulness = async (table, id) => {
   const result = await db.query(
     `
-    UPDATE questions
-      SET question_helpfulness = question_helpfulness + 1
-      WHERE question_id = $1;
+    UPDATE ${table}
+      SET helpfulness = helpfulness + 1
+      WHERE id = $1;
   `,
-    [questionId],
+    [id],
   );
 
-  // TODO: what to return?
-  return result;
+  return result.rowCount;
 };
-
-module.incrementAnswerHelpfulness = async (answerId) => {
-  const result = await db.query(
-    `
-    UPDATE answers
-        WHERE reported = FALSE
-      FROM answers
-  `,
-    [answerId],
-  );
-
-  // TODO: what to return?
-  return result;
-});
 
 module.reportQuestion = async (answerId) => {
   const result = await db.query(
