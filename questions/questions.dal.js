@@ -14,7 +14,7 @@ module.queryQuestionsByProductId = async (productId, count, page) => {
       a.body,
       a.date,
       a.name AS answerer_name,
-      a.helpfulness AS helpfulness,
+      a.helpfulness,
       ap.id,
       ap.url
     FROM (
@@ -22,7 +22,7 @@ module.queryQuestionsByProductId = async (productId, count, page) => {
         WHERE
           product_id = $1
           AND reported = FALSE
-      ORDER BY date DESC
+      ORDER BY date DESC, id ASC
       LIMIT $2
       OFFSET $3
     ) q
@@ -33,7 +33,12 @@ module.queryQuestionsByProductId = async (productId, count, page) => {
       ON a.question_id = q.id
     LEFT JOIN answers_photos ap
       ON ap.answer_id = a.id
-    ORDER BY q.date DESC, a.date DESC;
+    ORDER BY
+      q.date DESC,
+      q.id ASC,
+      a.date DESC,
+      a.id ASC,
+      ap.id DESC;
   `,
     [productId, count, (page - 1) * count],
   );
@@ -44,23 +49,27 @@ module.queryQuestionsByProductId = async (productId, count, page) => {
 module.queryAnswersByQuestionId = async (questionId, count, page) => {
   const answers = await db.query(
     `
-    SELECT * FROM (
-      SELECT
-        answer_id,
-        body,
-        date,
-        answerer_name,
-        helpfulness
-      FROM answers
-        WHERE question_id = $1
-          AND reported = FALSE
-      ORDER BY date DESC
+   SELECT 
+      a.id AS answer_id,
+      a.body,
+      a.date,
+      a.name AS answerer_name,
+      a.helpfulness,
+      ap.id,
+      ap.url
+    FROM (SELECT * FROM answers
+      WHERE question_id = $1
+        AND reported = FALSE
+      ORDER BY date DESC, id ASC
       LIMIT $2
       OFFSET $3
     ) a
-    INNER JOIN answers_photos ap
-      ON ap.answer_id = a.answer_id
-    ORDER BY date DESC, id ASC;
+    LEFT JOIN answers_photos ap
+      ON ap.answer_id = a.id
+    ORDER BY
+      a.date DESC,
+      a.id ASC,
+      ap.id ASC;
   `,
     [questionId, count, (page - 1) * count],
   );
