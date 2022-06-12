@@ -73,6 +73,8 @@ module.exports = async () => {
           USING to_timestamp(date / 1000.0),
         ALTER COLUMN date SET DEFAULT LOCALTIMESTAMP(3);
 
+      SELECT setval('questions_id_seq', (SELECT max(id) FROM questions));
+
       ALTER TABLE answers
         ADD CONSTRAINT answer_body_length CHECK (length(body) <= 1e4),
         ADD CONSTRAINT answer_name_length CHECK (length(name) <= 1e2),
@@ -81,6 +83,10 @@ module.exports = async () => {
           USING to_timestamp(date / 1000.0),
         ALTER COLUMN date SET DEFAULT LOCALTIMESTAMP(3);
 
+      SELECT setval('answers_id_seq', (SELECT max(id) FROM answers));
+
+      SELECT setval('answers_photos_id_seq', (SELECT max(id) FROM answers_photos);
+
       CREATE INDEX questions_product_id_index ON questions (product_id);
       CREATE INDEX questions_date_index ON questions (date DESC);
       CREATE INDEX answers_question_id_index ON answers (question_id);
@@ -88,7 +94,7 @@ module.exports = async () => {
       CREATE INDEX answers_photos_answer_id_index ON answers_photos (answer_id);
       `);
     console.log(
-      'Constraints placed on tables questions and answers.\nColumns questions.question_date and answers.date converted to type timestamp.\nIndexes created on ids and dates.',
+      'Constraints placed on tables questions and answers.\nColumns questions.question_date and answers.date converted to type timestamp.\nPrimary keys advanced.\nIndexes created on ids and dates.',
     );
   } catch (error) {
     console.log(`Failed to create database ${process.env.PGDATABASE}:`, error);

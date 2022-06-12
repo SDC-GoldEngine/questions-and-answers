@@ -80,18 +80,18 @@ module.queryAnswersByQuestionId = async (questionId, count, page) => {
 module.insertQuestion = async (productId, body, name, email) => {
   const result = await db.query(
     `
-    INSERT INTO question (
+    INSERT INTO questions (
       product_id,
-      question_body,
-      asker_name,
-      asker_email
+      body,
+      name,
+      email
     ) VALUES ($1, $2, $3, $4);
   `,
     [productId, body, name, email],
   );
 
   // TODO: what to return?
-  return result;
+  return result.rowCount;
 };
 
 const photoValues = (photos) => {
