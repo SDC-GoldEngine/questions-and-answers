@@ -41,6 +41,33 @@ const formatQuestions = (rows) => {
   return questions;
 };
 
+const formatAnswers = (rows) => {
+  const answers = [];
+  let i = -1;
+
+  for (const row of rows) {
+    if (answers[i]?.answer_id !== row.answer_id) {
+      i += 1;
+      answers[i] = {
+        answer_id: row.answer_id,
+        body: row.body,
+        date: row.date,
+        answerer_name: row.answerer_name,
+        helpfulness: row.helpfulness,
+        photos: [],
+      };
+    }
+
+    if (row.id) {
+      answers[i].photos.push({
+        id: row.id,
+        url: row.url,
+      });
+    }
+  }
+  return answers;
+};
+
 module.exports.getQuestions = async (context) => {
   const rows = await dal.queryQuestionsByProductId(
     context.productId,
@@ -54,11 +81,20 @@ module.exports.getQuestions = async (context) => {
   };
 };
 
-module.exports.getAnswers = async (context) => await dal.queryAnswersByQuestionId(
-  context.questionId,
-  context.count,
-  context.page,
-);
+module.exports.getAnswers = async (context) => {
+  const rows = await dal.queryAnswersByQuestionId(
+    context.questionId,
+    context.count,
+    context.page,
+  );
+
+  return {
+    question: context.questionId,
+    page: context.page,
+    count: context.count,
+    results: formatAnswers(rows),
+  };
+};
 
 module.exports.addQuestion = async (context) => await dal.insertQuestion(
   context.productId,
@@ -74,6 +110,7 @@ module.exports.addAnswer = async (context) => await dal.insertAnswer(
   context.email,
   context.photos,
 );
+
 module.exports.markHelpful = async (context) => await dal.incrementHelpfulness(context.table, context.id);
 
 module.exports.markReported = async (context) => await dal.report(context.table, context.id);
