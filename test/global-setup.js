@@ -12,6 +12,7 @@ process.env.PORT = 3010;
 
 const checkDatabase = async () => {
   let connected = false;
+  let timeoutReached = false;
 
   const getClient = async () => {
     try {
@@ -19,16 +20,21 @@ const checkDatabase = async () => {
       await client.connect();
       await client.end();
       connected = true;
+      console.log('Connected to database!');
     } catch (error) {
       console.log(error);
     }
   };
 
   setTimeout(() => {
-    connected = true;
-  }, 10 * 1e3);
+    if (!connected) {
+      console.log('Unable to connect to database!');
+    }
+    timeoutReached = true;
+  }, 5000);
+
   console.log('Connecting to database...');
-  while (!connected) {
+  while (!connected && !timeoutReached) {
     await getClient();
   }
 };
@@ -36,5 +42,4 @@ const checkDatabase = async () => {
 module.exports = async () => {
   await dockerCompose.upAll({ cwd: path.join(__dirname), log: true });
   await checkDatabase();
-  console.log('Connected to database!');
 };
