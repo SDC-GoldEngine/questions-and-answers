@@ -93,8 +93,11 @@ app.all('*', (req, res) => {
   res.sendStatus(404);
 });
 
-app.listen(process.env.PORT, () => {
+const server = app.listen(process.env.PORT, () => {
   console.log(
     `Questions & Answers service listening on port ${process.env.PORT}...`,
   );
 });
+
+module.exports.app = app;
+module.exports.server = server;
