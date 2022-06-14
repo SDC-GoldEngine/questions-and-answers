@@ -186,8 +186,65 @@ describe('Questions and Answers API', () => {
     });
   });
 
-  describe('POST /qa/questions/:question_id/helpful', () => {});
-  describe('POST /qa/questions/:question_id/report', () => {});
+  describe('POST /qa/questions/:question_id/helpful', () => {
+    it('when sent a valid questionId, should send status 204 and increment the helpfulness', async () => {
+      const productId = 9999;
+      const newQuestion = {
+        body: 'This is a question that is being tested?',
+        name: 'Tester',
+        email: 'test@test.com',
+        product_id: productId,
+      };
+
+      await apiClient.post('/qa/questions', newQuestion);
+
+      let response = await apiClient.get(
+        `qa/questions?product_id=${productId}&page=1&count=1`
+      );
+      let question = response.data.results[0];
+      const questionId = question.question_id;
+      expect(question.question_helpfulness).toEqual(0);
+
+      response = await apiClient.post(`/qa/questions/${questionId}/helpful`);
+      expect(response.status).toEqual(204);
+
+      response = await apiClient.get(
+        `qa/questions?product_id=${productId}&page=1&count=1`
+      );
+      question = response.data.results[0];
+      expect(question.question_helpfulness).toEqual(1);
+    });
+  });
+
+  describe('POST /qa/questions/:question_id/report', () => {
+    it('when sent a valid questionId, should send status 204 and hide the question', async () => {
+      const productId = 8888;
+      const newQuestion = {
+        body: 'This is a question that is being tested?',
+        name: 'Tester',
+        email: 'test@test.com',
+        product_id: productId,
+      };
+
+      await apiClient.post('/qa/questions', newQuestion);
+
+      let response = await apiClient.get(
+        `qa/questions?product_id=${productId}&page=1&count=1`
+      );
+
+      const questionId = response.data.results[0].question_id;
+      console.log(questionId);
+
+      response = await apiClient.post(`/qa/questions/${questionId}/report`);
+      expect(response.status).toEqual(204);
+
+      response = await apiClient.get(
+        `qa/questions?product_id=${productId}&page=1&count=1`
+      );
+      expect(response.data.results).toMatchObject([]);
+    });
+  });
+
   describe('POST /qa/answers/:answer_id/helpful', () => {});
   describe('POST /qa/answers/:answer_id/report', () => {});
 });
