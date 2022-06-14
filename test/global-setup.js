@@ -21,12 +21,13 @@ const checkDatabase = async () => {
       await client.end();
     } catch (error) {
       connected = false;
-      setTimeout(() => {}, 100);
+      setTimeout(() => {}, 1000);
     }
   };
 
-  console.log('Connecting to database...');
+  console.log(process.env);
   while (!connected) {
+    console.log('Connecting to database...');
     await getClient();
   }
 };
