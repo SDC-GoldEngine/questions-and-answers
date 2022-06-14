@@ -11,25 +11,27 @@ process.env.DBPATH = '/data';
 process.env.PORT = 3010;
 
 const checkDatabase = async () => {
-  let connected = false;
-
-  const getClient = async () => {
-    try {
+  const getClient = () =>
+    new Promise((resolve) => {
       const client = new Client();
-      await client.connect();
-      connected = true;
-      await client.end();
-    } catch (error) {
-      connected = false;
-      setTimeout(() => {}, 1000);
-    }
-  };
+      client
+        .connect()
+        .then(() => {
+          client.end();
+        })
+        .then(() => {
+          resolve();
+        })
+        .catch((error) => {
+          console.log(error);
+          setTimeout(() => {
+            getClient();
+          }, 1000);
+        });
+    });
 
-  console.log(process.env);
-  while (!connected) {
-    console.log('Connecting to database...');
-    await getClient();
-  }
+  console.log('Connecting to database...');
+  await getClient(false);
 };
 
 module.exports = async () => {

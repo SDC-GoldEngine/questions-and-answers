@@ -21,7 +21,6 @@ describe('Questions and Answers API', () => {
       const response = await apiClient.get(
         `qa/questions?product_id=${productId}&page=${page}&count=${count}`
       );
-      console.log(response.data.results[0].answers);
 
       expect(response).toMatchObject({
         status: 200,
