@@ -3,6 +3,13 @@ const dockerCompose = require('docker-compose');
 const path = require('path');
 const { Client } = require('pg');
 
+process.env.PGUSER = 'postgres';
+process.env.PGPASSWORD = 'pw';
+process.env.PGDATABASE = 'qa';
+process.env.PGPORT = 54310;
+process.env.DBPATH = '/data';
+process.env.PORT = 3010;
+
 const checkDatabase = async () => {
   let connected = false;
 
@@ -18,8 +25,8 @@ const checkDatabase = async () => {
     }
   };
 
+  console.log('Connecting to database...');
   while (!connected) {
-    console.log('Waiting to connect to database...');
     await getClient();
   }
 };
