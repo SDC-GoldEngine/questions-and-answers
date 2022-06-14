@@ -22,7 +22,7 @@ const checkDatabase = async () => {
       connected = true;
       console.log('Connected to database!');
     } catch (error) {
-      console.log(error);
+      return;
     }
   };
 
@@ -41,5 +41,11 @@ const checkDatabase = async () => {
 
 module.exports = async () => {
   await dockerCompose.upAll({ cwd: path.join(__dirname), log: true });
+  await dockerCompose.ps({ cwd: path.join(__dirname), log: true });
+  await dockerCompose.logs('db', {
+    cwd: path.join(__dirname),
+    log: true,
+    follow: true,
+  });
   await checkDatabase();
 };

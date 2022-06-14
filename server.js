@@ -96,7 +96,7 @@ app.all('*', (req, res) => {
 
 const server = app.listen(process.env.PORT, () => {
   console.log(
-    `Questions & Answers service listening on port ${process.env.PORT}...`,
+    `Questions & Answers service listening on port ${process.env.PORT}...`
   );
 });
 
