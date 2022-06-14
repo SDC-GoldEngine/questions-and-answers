@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const controller = require('./questions');
+const endPool = require('./db').end;
 
 const app = express();
 
@@ -93,8 +94,20 @@ app.all('*', (req, res) => {
   res.sendStatus(404);
 });
 
-app.listen(process.env.PORT, () => {
+const server = app.listen(process.env.PORT, () => {
   console.log(
-    `Questions & Answers service listening on port ${process.env.PORT}...`,
+    `Questions & Answers service listening on port ${process.env.PORT}...`
   );
 });
+
+const closeServer = async () => {
+  await endPool();
+  await new Promise((resolve) => {
+    server.close(() => {
+      resolve();
+    });
+  });
+};
+
+module.exports.app = app;
+module.exports.closeServer = closeServer;

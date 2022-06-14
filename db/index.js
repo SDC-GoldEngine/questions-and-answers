@@ -25,4 +25,7 @@ let pool;
 
 module.exports = {
   query: async (text, params) => await pool.query(text, params),
+  end: async () => {
+    pool.end();
+  },
 };

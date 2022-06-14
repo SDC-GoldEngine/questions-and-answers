@@ -1,0 +1,100 @@
+id,question_id,body,date_written,answerer_name,answerer_email,reported,helpful
+1,36,"Supposedly suede, but I think its synthetic",1599958385988,"sillyguy","first.last@gmail.com",0,1
+2,13,"Some kind of recycled rubber, works great!",1615008233634,"marcanthony","first.last@gmail.com",0,2
+3,23,"Some kind of recycled rubber, works great!",1592693405366,"iluvdogz","first.last@gmail.com",0,3
+4,26,"No",1596547018643,"Seller","first.last@gmail.com",0,4
+5,1,"Something pretty soft but I can't be sure",1599990560555,"metslover","first.last@gmail.com",0,5
+6,28,"I wouldn't machine wash it",1611767721834,"warmkid","first.last@cbs.com",1,6
+7,1,"Its the best! Seriously magic fabric",1614451524662,"metslover","first.last@gmail.com",0,7
+8,1,"DONT BUY IT! It's bad for the environment",1600552162548,"metslover","first.last@gmail.com",0,8
+9,28,"Only if you want to ruin it!",1612517216955,"warmkid","first.last@cbs.com",1,9
+10,34,"I've thrown it in the wash and it seems fine",1600421746125,"skilover","first.last@cbs.com",0,1
+11,34,"It says not to",1596810657486,"skilover","first.last@cbs.com",0,2
+12,34,"Yes",1596584232121,"skilover","first.last@cbs.com",0,3
+13,36,"Something pretty soft but I can't be sure",1600528759352,"sillyguy","first.last@gmail.com",0,4
+14,29,"Something pretty soft but I can't be sure",1612517216955,"superman","first.last@gmail.com",0,5
+15,36,"Its the best! Seriously magic fabric",1615419078495,"sillyguy","first.last@gmail.com",0,6
+16,13,"Rubber",1608391381140,"Seller","first.last@gmail.com",0,7
+17,14,"China",1618481897469,"Seller","first.last@gmail.com",0,8
+18,17,"Runs small, I'd say",1599943428768,"warmkid","first.last@gmail.com",0,9
+19,18,"I wouldn't machine wash it",1595613922158,"dschulman","first.last@gmail.com",0,1
+20,18,"Only if you want to ruin it!",1607104035308,"dschulman","first.last@gmail.com",0,2
+21,18,"I've thrown it in the wash and it seems fine",1607469189925,"dschulman","first.last@gmail.com",0,3
+22,18,"It says not to",1589087728855,"dschulman","first.last@gmail.com",0,4
+23,11,"It ships from the facility in Tulsa",1618481897469,"dschulman","first.last@gmail.com",0,25
+24,21,"No?",1616293796317,"dschulman","first.last@gmail.com",0,6
+25,22,"Its made from sustainable parts and manufactured in a green facility",1599943428768,"marcanthony","first.last@gmail.com",0,17
+26,23,"Rubber",1591030128851,"iluvdogz","first.last@gmail.com",0,8
+27,35,"Canada",1594236620648,"footballfan","first.last@gmail.com",0,9
+28,36,"Suede",1615008233634,"sillyguy","first.last@gmail.com",0,0
+29,23,"Its a rubber sole",1618481897469,"iluvbirds","first.last@gmail.com",0,1
+30,2,"Its a rubber sole",1616293796317,"dschulman","first.last@gmail.com",0,2
+31,11,"Mine was delivered from Oklahoma",1616293796317,"dschulman","first.last@gmail.com",0,23
+32,7,"Michigan",1607739922101,"iluvbirds","first.last@gmail.com",0,4
+33,12,"It fit fine for me",1600413034426,"iluvbirds","first.last@gmail.com",0,5
+34,12,"Felt a little smaller than my usual size.",1591700862627,"iluvbirds","first.last@gmail.com",0,6
+35,13,"Its a rubber sole",1595136415978,"marcanthony","first.last@gmail.com",0,7
+36,7,"Made locally!",1597597177804,"Seller","first.last@gmail.com",0,8
+37,28,"It says not to",1607839829088,"warmkid","first.last@cbs.com",1,9
+38,32,"The rubber on the bottom wears thin quickly",1612414879602,"iluvbirds","first.last@gmail.com",0,4
+39,32,"Rubber",1614694635222,"iluvbirds","first.last@gmail.com",0,1
+40,33,"This product is overstocked here!",1591879015890,"toofast","first.last@gmail.com",0,2
+41,48,"I've had mine for months and still holdign up great!",1595265601124,"n00bgamer","first.last@gmail.com",0,3
+42,49,"It runs pretty wide on me",1613817108086,"dschulman","first.last@gmail.com",0,4
+43,34,"I wouldn't machine wash it",1612814828522,"skilover","first.last@cbs.com",0,5
+44,18,"Yes",1589087728855,"dschulman","first.last@gmail.com",0,6
+45,8,"Its made from sustainable parts and manufactured in a green facility",1594460951512,"warmkid","first.last@gmail.com",1,7
+46,5,"I've thrown it in the wash and it seems fine",1606022843272,"marcanthony","first.last@gmail.com",0,8
+47,13,"The rubber on the bottom wears thin quickly",1591030128851,"marcanthony","first.last@gmail.com",0,9
+48,8,"Its Green Circle Certified!",1601001012339,"Seller","first.last@gmail.com",1,0
+49,9,"Yes",1614451524662,"n00bgamer","first.last@gmail.com",0,3
+50,44,"Something pretty soft but I can't be sure",1600172116042,"mrmrs","first.last@gmail.com",0,0
+51,46,"I've thrown it in the wash and it seems fine",1615868276652,"marcanthony","first.last@aol.com",0,1
+52,46,"It says not to",1592693405366,"marcanthony","first.last@aol.com",0,12
+53,46,"Yes",1615928304392,"ceasar","first.last@aol.com",0,3
+54,47,"We are selling it here without any markup from the middleman!",1598610421169,"Seller",null,0,4
+55,34,"Only if you want to ruin it!",1617503144374,"skilover","first.last@cbs.com",0,5
+56,23,"The rubber on the bottom wears thin quickly",1597202419570,"iluvdogz","first.last@gmail.com",0,46
+57,1,"Suede",1618159891495,"metslover","first.last@gmail.com",0,7
+58,50,"Its a rubber sole",1603199227963,"n00bgamer","first.last@gmail.com",0,8
+59,50,"Some kind of recycled rubber, works great!",1596449766885,"n00bgamer","first.last@gmail.com",0,9
+60,50,"The rubber on the bottom wears thin quickly",1610422130964,"n00bgamer","first.last@gmail.com",0,7
+61,44,"Its the best! Seriously magic fabric",1612122965562,"mrmrs","first.last@gmail.com",0,1
+62,24,"Mine was delivered from Oklahoma",1600172116042,"toofast","first.last@gmail.com",0,14
+63,28,"I've thrown it in the wash and it seems fine",1601001012339,"warmkid","first.last@cbs.com",1,0
+64,5,"It says not to",1588644950162,"ceasar","first.last@gmail.com",0,0
+65,4,"It runs small",1605784307205,"dschulman","first.last@gmail.com",0,1
+66,44,"Supposedly suede, but I think its synthetic",1610654961644,"mrmrs","first.last@gmail.com",0,2
+67,28,"Yes",1592263013024,"warmkid","first.last@cbs.com",1,3
+68,37,"We are selling it here without any markup from the middleman!",1618651637781,"Seller",null,0,4
+69,52,"Mine started showing wear a weeks in",1592000132126,"sillyguy","first.last@gmail.com",0,5
+70,38,"Some of the seams started splitting the first time I wore it!",1613971174898,"sillyguy","first.last@gmail.com",0,6
+71,39,"Runs small, I'd say",1602400753385,"smithsmith","first.last@gmail.com",0,7
+72,29,"Suede",1617503144374,"Seller","first.last@gmail.com",0,8
+73,24,"It ships from the facility in Tulsa",1591879015890,"toofast","first.last@gmail.com",0,19
+74,25,"Taiwan",1608100496565,"thegrimreaker","first.last@gmail.com",0,0
+75,2,"The rubber on the bottom wears thin quickly",1588644950162,"dschulman","first.last@gmail.com",0,2
+76,50,"Rubber",1608100496565,"n00bgamer","first.last@gmail.com",0,7
+77,51,"USA",1615928304392,"sillyguy","first.last@gmail.com",1,44
+78,38,"9 lives",1614694635222,"iluvdogz","first.last@gmail.com",0,31
+79,54,"Supposedly suede, but I think its synthetic",1600120432219,"n00bgamer","first.last@gmail.com",0,4
+80,40,"We are selling it here without any markup from the middleman!",1601001012339,"Seller",null,0,2
+81,41,"Suede",1612814828522,"warmkid","first.last@gmail.com",0,0
+82,41,"Something pretty soft but I can't be sure",1606022843272,"warmkid","first.last@gmail.com",0,1
+83,46,"I wouldn't machine wash it",1610654961644,"ceasar","first.last@aol.com",0,2
+84,2,"Rubber",1615868276652,"dschulman","first.last@gmail.com",0,3
+85,29,"Its the best! Seriously magic fabric",1591196397170,"superman","first.last@gmail.com",0,4
+86,29,"Supposedly suede, but I think its synthetic",1599958385988,"superman","first.last@gmail.com",0,5
+87,32,"Its a rubber sole",1600154313313,"iluvdogz","first.last@gmail.com",0,6
+88,32,"Some kind of recycled rubber, works great!",1602400753385,"iluvdogz","first.last@gmail.com",0,7
+89,4,"Showing no wear after a few months!",1599089609530,"sillyguy","first.last@gmail.com",0,8
+90,44,"Suede",1614451524662,"mrmrs","first.last@gmail.com",0,9
+91,45,"Manufactured in Mexico City",1608681984296,"Seller","first.last@aol.com",0,4
+92,5,"Haha, are you serious?",1600330331162,"ceasar","first.last@gmail.com",1,0
+93,41,"Its the best! Seriously magic fabric",1613971174898,"warmkid","first.last@gmail.com",0,1
+94,41,"Supposedly suede, but I think its synthetic",1614694635222,"warmkid","first.last@gmail.com",0,2
+95,1,"Supposedly suede, but I think its synthetic",1600120432219,"metslover","first.last@gmail.com",0,3
+96,5,"I wouldn't machine wash it",1590584621205,"ceasar","first.last@gmail.com",0,0
+97,53,"China",1607104035308,"sillyguy","first.last@gmail.com",0,11
+98,54,"Suede",1595613922158,"n00bgamer","first.last@gmail.com",0,2
+99,54,"Something pretty soft but I can't be sure",1607839829088,"n00bgamer","first.last@gmail.com",0,3

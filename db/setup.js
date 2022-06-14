@@ -69,9 +69,9 @@ module.exports = async () => {
         ADD CONSTRAINT question_body_length CHECK (length(body) <= 1e4),
         ADD CONSTRAINT question_name_length CHECK (length(name) <= 1e2),
         ADD CONSTRAINT question_email_length CHECK (length(email) <= 1e2),
-        ALTER COLUMN date TYPE timestamp(3)
+        ALTER COLUMN date TYPE timestamp(3) with time zone
           USING to_timestamp(date / 1000.0),
-        ALTER COLUMN date SET DEFAULT LOCALTIMESTAMP(3);
+        ALTER COLUMN date SET DEFAULT CURRENT_TIMESTAMP(3);
 
       SELECT setval('questions_id_seq', (SELECT max(id) FROM questions));
 
@@ -79,13 +79,13 @@ module.exports = async () => {
         ADD CONSTRAINT answer_body_length CHECK (length(body) <= 1e4),
         ADD CONSTRAINT answer_name_length CHECK (length(name) <= 1e2),
         ADD CONSTRAINT answer_email_length CHECK (length(email) <= 1e2),
-        ALTER COLUMN date TYPE timestamp(3)
+        ALTER COLUMN date TYPE timestamp(3) with time zone
           USING to_timestamp(date / 1000.0),
-        ALTER COLUMN date SET DEFAULT LOCALTIMESTAMP(3);
+        ALTER COLUMN date SET DEFAULT CURRENT_TIMESTAMP(3);
 
       SELECT setval('answers_id_seq', (SELECT max(id) FROM answers));
 
-      SELECT setval('answers_photos_id_seq', (SELECT max(id) FROM answers_photos);
+      SELECT setval('answers_photos_id_seq', (SELECT max(id) FROM answers_photos));
 
       CREATE INDEX questions_product_id_index ON questions (product_id);
       CREATE INDEX questions_date_index ON questions (date DESC);
