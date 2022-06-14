@@ -81,11 +81,65 @@ describe('Questions and Answers API', () => {
       });
     });
 
-    it.todo(
-      'when page and count are missing, should use a value of 1 for page and 5 for count'
-    );
+    it('when page and count are missing, should use a value of 1 for page and 5 for count', async () => {
+      const productId = 1;
 
-    it.todo('when given invalid values, should return status 400');
+      const response = await apiClient.get(
+        `qa/questions?product_id=${productId}&page=${page}&count=${count}`
+      );
+
+      expect(response).toMatchObject({});
+    });
+
+    it('when given invalid values, should return status 400', async () => {
+      let productId = -1;
+      let page = 1;
+      let count = 1;
+      let response = await apiClient.get(
+        `qa/questions?product_id=${productId}&page=${page}&count=${count}`
+      );
+      expect(response.status).toEqual(400);
+
+      productId = 1;
+      page = -1;
+      count = 1;
+      response = await apiClient.get(
+        `qa/questions?product_id=${productId}&page=${page}&count=${count}`
+      );
+      expect(response.status).toEqual(400);
+
+      productId = 1;
+      page = 1;
+      count = -1;
+      response = await apiClient.get(
+        `qa/questions?product_id=${productId}&page=${page}&count=${count}`
+      );
+      expect(response.status).toEqual(400);
+
+      productId = 'wrong';
+      page = 1;
+      count = 1;
+      response = await apiClient.get(
+        `qa/questions?product_id=${productId}&page=${page}&count=${count}`
+      );
+      expect(response.status).toEqual(400);
+
+      productId = 1;
+      page = 'wrong';
+      count = 1;
+      response = await apiClient.get(
+        `qa/questions?product_id=${productId}&page=${page}&count=${count}`
+      );
+      expect(response.status).toEqual(400);
+
+      productId = 1;
+      page = 1;
+      count = 'wrong';
+      response = await apiClient.get(
+        `qa/questions?product_id=${productId}&page=${page}&count=${count}`
+      );
+      expect(response.status).toEqual(400);
+    });
   });
 
   describe('GET /qa/questions/:question_id/answers', () => {
@@ -118,11 +172,64 @@ describe('Questions and Answers API', () => {
       });
     });
 
-    it.todo(
-      'when page and count are missing, should use a value of 1 for page and 5 for count'
-    );
+    it('when page and count are missing, should use a value of 1 for page and 5 for count', async () => {
+      const questionId = 1;
+      const response = await apiClient.get(
+        `qa/questions/${questionId}/answers?page=${page}&count=${count}`
+      );
 
-    it.todo('when given invalid values, should return status 400');
+      expect(response).toMatchObject({});
+    });
+
+    it('when given invalid values, should return status 400', async () => {
+      let questionId = -1;
+      let page = 1;
+      let count = 1;
+      let response = await apiClient.get(
+        `qa/questions/${questionId}/answers?page=${page}&count=${count}`
+      );
+      expect(response.status).toEqual(400);
+
+      questionId = 1;
+      page = -1;
+      count = 1;
+      response = await apiClient.get(
+        `qa/questions/${questionId}/answers?page=${page}&count=${count}`
+      );
+      expect(response.status).toEqual(400);
+
+      questionId = 1;
+      page = 1;
+      count = -1;
+      response = await apiClient.get(
+        `qa/questions/${questionId}/answers?page=${page}&count=${count}`
+      );
+      expect(response.status).toEqual(400);
+
+      questionId = 'wrong';
+      page = 1;
+      count = 1;
+      response = await apiClient.get(
+        `qa/questions/${questionId}/answers?page=${page}&count=${count}`
+      );
+      expect(response.status).toEqual(400);
+
+      questionId = 1;
+      page = 'wrong';
+      count = 1;
+      response = await apiClient.get(
+        `qa/questions/${questionId}/answers?page=${page}&count=${count}`
+      );
+      expect(response.status).toEqual(400);
+
+      questionId = -1;
+      page = 1;
+      count = 'wrong';
+      response = await apiClient.get(
+        `qa/questions/${questionId}/answers?page=${page}&count=${count}`
+      );
+      expect(response.status).toEqual(400);
+    });
   });
 
   describe('POST /qa/questions', () => {
@@ -160,7 +267,52 @@ describe('Questions and Answers API', () => {
       });
     });
 
-    it.todo('when given an invalid question, should return status 400');
+    it('when given an invalid question, should return status 400', async () => {
+      let productId = 9999;
+      let newQuestion = {
+        body: 'This is a question that is being tested?',
+        name: 'Tester',
+        email: 'test@test.com',
+      };
+      let response = await apiClient.post('/qa/questions', newQuestion);
+      expect(response.status).toEqual(400);
+
+      newQuestion = {
+        body: 'This is a question that is being tested?',
+        name: 'Tester',
+        email: 'test@test.com',
+        product_id: 'productId',
+      };
+      response = await apiClient.post('/qa/questions', newQuestion);
+      expect(response.status).toEqual(400);
+
+      newQuestion = {
+        body: [],
+        name: 'Tester',
+        email: 'test@test.com',
+        product_id: productId,
+      };
+      response = await apiClient.post('/qa/questions', newQuestion);
+      expect(response.status).toEqual(400);
+
+      newQuestion = {
+        body: 'This is a question that is being tested?',
+        name: 1,
+        email: 'test@test.com',
+        product_id: productId,
+      };
+      response = await apiClient.post('/qa/questions', newQuestion);
+      expect(response.status).toEqual(400);
+
+      newQuestion = {
+        body: 'This is a question that is being tested?',
+        name: 'Tester',
+        email: { key: 1 },
+        product_id: productId,
+      };
+      response = await apiClient.post('/qa/questions', newQuestion);
+      expect(response.status).toEqual(400);
+    });
   });
 
   describe('POST /qa/questions/:question_id/answers', () => {
@@ -173,8 +325,13 @@ describe('Questions and Answers API', () => {
         photos: ['http://www.picture.com', 'http://www.otherpicture.com'],
       };
 
-      await apiClient.post(`/qa/questions/${questionId}/answers`, newAnswer);
-      const response = await apiClient.get(
+      let response = await apiClient.post(
+        `/qa/questions/${questionId}/answers`,
+        newAnswer
+      );
+      expect(response.status).toEqual(201);
+
+      response = await apiClient.get(
         `qa/questions/${questionId}/answers?page=1&count=1`
       );
 
@@ -199,7 +356,92 @@ describe('Questions and Answers API', () => {
       });
     });
 
-    it.todo('when given an invalid answer, should return status 400');
+    it('when given an invalid answer, should return status 400', async () => {
+      let questionId = 1e8;
+      let newAnswer = {
+        body: 'This is an answer that is being tested!',
+        name: 'Tester',
+        email: 'test@test.com',
+        photos: ['http://www.picture.com', 'http://www.otherpicture.com'],
+      };
+      let result = await apiClient.post(
+        `/qa/questions/${questionId}/answers`,
+        newAnswer
+      );
+      expect(result.status).toEqual(400);
+
+      questionId = 1;
+      newAnswer = {
+        name: 'Tester',
+        email: 'test@test.com',
+        photos: ['http://www.picture.com', 'http://www.otherpicture.com'],
+      };
+      result = await apiClient.post(
+        `/qa/questions/${questionId}/answers`,
+        newAnswer
+      );
+      expect(result.status).toEqual(400);
+
+      newAnswer = {
+        body: 1,
+        name: 'Tester',
+        email: 'test@test.com',
+        photos: ['http://www.picture.com', 'http://www.otherpicture.com'],
+      };
+      result = await apiClient.post(
+        `/qa/questions/${questionId}/answers`,
+        newAnswer
+      );
+      expect(result.status).toEqual(400);
+
+      newAnswer = {
+        body: 'This is an answer that is being tested!',
+        name: 1,
+        email: 'test@test.com',
+        photos: ['http://www.picture.com', 'http://www.otherpicture.com'],
+      };
+      result = await apiClient.post(
+        `/qa/questions/${questionId}/answers`,
+        newAnswer
+      );
+      expect(result.status).toEqual(400);
+
+      newAnswer = {
+        body: 'This is an answer that is being tested!',
+        name: 'Tester',
+        email: {},
+        photos: ['http://www.picture.com', 'http://www.otherpicture.com'],
+      };
+      result = await apiClient.post(
+        `/qa/questions/${questionId}/answers`,
+        newAnswer
+      );
+      expect(result.status).toEqual(400);
+
+      newAnswer = {
+        body: 'This is an answer that is being tested!',
+        name: 'Tester',
+        email: 'test@test.com',
+        photos: [{}, 'http://www.otherpicture.com'],
+      };
+      result = await apiClient.post(
+        `/qa/questions/${questionId}/answers`,
+        newAnswer
+      );
+      expect(result.status).toEqual(400);
+
+      newAnswer = {
+        body: 'This is an answer that is being tested!',
+        name: 'Tester',
+        email: 'test@test.com',
+        photos: ['http://www.picture.com', 'http://www.otherpicture.com', 1],
+      };
+      result = await apiClient.post(
+        `/qa/questions/${questionId}/answers`,
+        newAnswer
+      );
+      expect(result.status).toEqual(400);
+    });
   });
 
   describe('POST /qa/questions/:question_id/helpful', () => {
@@ -231,8 +473,25 @@ describe('Questions and Answers API', () => {
       expect(question.question_helpfulness).toEqual(1);
     });
 
-    it.todo('when given invalid values, should return status 400');
-    it.todo('when given a nonexistent productId, should return status 404');
+    it('when given invalid values, should return status 400', async () => {
+      let questionId = -1;
+      let response = await apiClient.post(
+        `/qa/questions/${questionId}/helpful`
+      );
+      expect(response.status).toEqual(400);
+
+      productId = 'wrong';
+      response = await apiClient.post(`/qa/questions/${questionId}/helpful`);
+      expect(response.status).toEqual(400);
+    });
+
+    it('when given a nonexistent productId, should return status 404', async () => {
+      let questionId = 1e8;
+      let response = await apiClient.post(
+        `/qa/questions/${questionId}/helpful`
+      );
+      expect(response.status).toEqual(404);
+    });
   });
 
   describe('POST /qa/questions/:question_id/report', () => {
@@ -262,8 +521,21 @@ describe('Questions and Answers API', () => {
       expect(response.data.results).toMatchObject([]);
     });
 
-    it.todo('when given invalid values, should return status 400');
-    it.todo('when given a nonexistent productId, should return status 404');
+    it('when given invalid values, should return status 400', async () => {
+      let questionId = -1;
+      let response = await apiClient.post(`/qa/questions/${questionId}/report`);
+      expect(response.status).toEqual(400);
+
+      productId = 'wrong';
+      response = await apiClient.post(`/qa/questions/${questionId}/report`);
+      expect(response.status).toEqual(400);
+    });
+
+    it('when given a nonexistent productId, should return status 404', async () => {
+      let questionId = 1e8;
+      let response = await apiClient.post(`/qa/questions/${questionId}/report`);
+      expect(response.status).toEqual(404);
+    });
   });
 
   describe('POST /qa/answers/:answer_id/helpful', () => {
@@ -295,8 +567,21 @@ describe('Questions and Answers API', () => {
       expect(answer.helpfulness).toEqual(1);
     });
 
-    it.todo('when given invalid values, should return status 400');
-    it.todo('when given a nonexistent answerId, should return status 404');
+    it('when given invalid values, should return status 400', async () => {
+      let answerId = -1;
+      let response = await apiClient.post(`/qa/answers/${answerId}/helpful`);
+      expect(response.status).toEqual(400);
+
+      answerId = 'wrong';
+      response = await apiClient.post(`/qa/answers/${answerId}/helpful`);
+      expect(response.status).toEqual(400);
+    });
+
+    it('when given a nonexistent answerId, should return status 404', async () => {
+      let answerId = 1e8;
+      let response = await apiClient.post(`/qa/answers/${answerId}/helpful`);
+      expect(response.status).toEqual(404);
+    });
   });
 
   describe('POST /qa/answers/:answer_id/report', () => {
@@ -336,11 +621,34 @@ describe('Questions and Answers API', () => {
       expect(response.data.results).toMatchObject([]);
     });
 
-    it.todo('when given invalid values, should return status 400');
-    it.todo('when given a nonexistent questionId, should return status 404');
+    it('when given invalid values, should return status 400', async () => {
+      let answerId = -1;
+      let response = await apiClient.post(`/qa/answers/${answerId}/report`);
+      expect(response.status).toEqual(400);
+
+      answerId = 'wrong';
+      response = await apiClient.post(`/qa/answers/${answerId}/report`);
+      expect(response.status).toEqual(400);
+    });
+
+    it('when given a nonexistent answerId, should return status 404', async () => {
+      let answerId = 1e8;
+      let response = await apiClient.post(`/qa/answers/${answerId}/report`);
+      expect(response.status).toEqual(404);
+    });
   });
 
   describe('invalid route', () => {
-    it.todo('should return 404');
+    it('should return 404', async () => {
+      let response = await apiClient.post(`/xa/questions`);
+      expect(response.status).toEqual(404);
+      expect(response.status).toEqual(404);
+
+      response = await apiClient.post(`/qa/xuestions`);
+      expect(response.status).toEqual(404);
+
+      response = await apiClient.post(`/qa/xnswers`);
+      expect(response.status).toEqual(404);
+    });
   });
 });
