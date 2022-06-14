@@ -80,6 +80,12 @@ describe('Questions and Answers API', () => {
         },
       });
     });
+
+    it.todo(
+      'when page and count are missing, should use a value of 1 for page and 5 for count'
+    );
+
+    it.todo('when given invalid values, should return status 400');
   });
 
   describe('GET /qa/questions/:question_id/answers', () => {
@@ -111,6 +117,12 @@ describe('Questions and Answers API', () => {
         },
       });
     });
+
+    it.todo(
+      'when page and count are missing, should use a value of 1 for page and 5 for count'
+    );
+
+    it.todo('when given invalid values, should return status 400');
   });
 
   describe('POST /qa/questions', () => {
@@ -147,6 +159,8 @@ describe('Questions and Answers API', () => {
         },
       });
     });
+
+    it.todo('when given an invalid question, should return status 400');
   });
 
   describe('POST /qa/questions/:question_id/answers', () => {
@@ -184,6 +198,8 @@ describe('Questions and Answers API', () => {
         },
       });
     });
+
+    it.todo('when given an invalid answer, should return status 400');
   });
 
   describe('POST /qa/questions/:question_id/helpful', () => {
@@ -214,6 +230,9 @@ describe('Questions and Answers API', () => {
       question = response.data.results[0];
       expect(question.question_helpfulness).toEqual(1);
     });
+
+    it.todo('when given invalid values, should return status 400');
+    it.todo('when given a nonexistent productId, should return status 404');
   });
 
   describe('POST /qa/questions/:question_id/report', () => {
@@ -242,10 +261,13 @@ describe('Questions and Answers API', () => {
       );
       expect(response.data.results).toMatchObject([]);
     });
+
+    it.todo('when given invalid values, should return status 400');
+    it.todo('when given a nonexistent productId, should return status 404');
   });
 
   describe('POST /qa/answers/:answer_id/helpful', () => {
-    it('when sent a valid questionId, should send status 204 and increment the helpfulness', async () => {
+    it('when sent a valid answerId, should send status 204 and increment the helpfulness', async () => {
       const questionId = 1;
       const newAnswer = {
         body: 'This is an answer that is being tested!',
@@ -272,10 +294,13 @@ describe('Questions and Answers API', () => {
       answer = response.data.results[0];
       expect(answer.helpfulness).toEqual(1);
     });
+
+    it.todo('when given invalid values, should return status 400');
+    it.todo('when given a nonexistent answerId, should return status 404');
   });
 
   describe('POST /qa/answers/:answer_id/report', () => {
-    it('when sent a valid questionId, should send status 204 and hide the question', async () => {
+    it('when sent a valid answerId, should send status 204 and hide the question', async () => {
       const productId = 7777;
       const newQuestion = {
         body: 'This is a question that is being tested?',
@@ -310,5 +335,12 @@ describe('Questions and Answers API', () => {
       );
       expect(response.data.results).toMatchObject([]);
     });
+
+    it.todo('when given invalid values, should return status 400');
+    it.todo('when given a nonexistent questionId, should return status 404');
+  });
+
+  describe('invalid route', () => {
+    it.todo('should return 404');
   });
 });
