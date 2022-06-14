@@ -1,9 +1,6 @@
-const isCI = require('is-ci');
 const dockerCompose = require('docker-compose');
+const path = require('path');
 
 module.exports = async () => {
-  // Check if running CI environment
-  if (isCI) {
-    dockerCompose.down();
-  }
+  await dockerCompose.down({ cwd: path.join(__dirname), log: true });
 };

@@ -5,10 +5,14 @@ const axiosConfig = {
   baseURL: `http://127.0.0.1:${process.env.PORT}`,
   validateStatus: () => true,
 };
-const qaClient = axios.create(axiosConfig);
+const apiClient = axios.create(axiosConfig);
 
-afterAll(() => {
-  server.close();
+afterAll(async () => {
+  await new Promise((resolve) => {
+    server.close(() => {
+      resolve();
+    });
+  });
 });
 
 describe('Questions and Answers API', () => {
@@ -17,7 +21,7 @@ describe('Questions and Answers API', () => {
       const questionId = 1;
       const page = 1;
       const count = 1;
-      const response = await qaClient.get(
+      const response = await apiClient.get(
         `qa/questions/${questionId}/answers?page=${page}&count=${count}`,
       );
       console.log(response.data);
