@@ -24,6 +24,9 @@ const checkDatabase = async () => {
     }
   };
 
+  setTimeout(() => {
+    connected = true;
+  }, 10 * 1e3);
   console.log('Connecting to database...');
   while (!connected) {
     await getClient();
