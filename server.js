@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const path = require('path');
 const controller = require('./questions');
 const closeDbPool = require('./db').end;
 
@@ -91,7 +92,7 @@ app.post('/qa/answers/:answer_id/report', async (req, res) => {
 });
 
 app.get(`/${process.env.LOADERIO_TOKEN}`, (req, res) => {
-  res.sendStatus(100);
+  res.sendFile(path.join(__dirname, `${process.env.LOADERIO_TOKEN}.txt`));
 });
 
 app.all('*', (req, res) => {
