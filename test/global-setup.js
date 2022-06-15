@@ -7,7 +7,7 @@ process.env.PGUSER = 'postgres';
 process.env.PGPASSWORD = 'pw';
 process.env.PGDATABASE = 'qa';
 process.env.PGPORT = 54310;
-process.env.DBPATH = '/data';
+process.env.DBPATH = '/tmp/data';
 process.env.PORT = 3010;
 
 const checkDatabase = async () => {

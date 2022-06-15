@@ -1,6 +1,7 @@
 const { Pool, Client } = require('pg');
 
 module.exports = async () => {
+  return;
   const client = new Client({
     database: 'template1',
   });
@@ -94,7 +95,7 @@ module.exports = async () => {
       CREATE INDEX answers_photos_answer_id_index ON answers_photos (answer_id);
       `);
     console.log(
-      'Constraints placed on tables questions and answers.\nColumns questions.question_date and answers.date converted to type timestamp.\nPrimary keys advanced.\nIndexes created on ids and dates.',
+      'Constraints placed on tables questions and answers.\nColumns questions.question_date and answers.date converted to type timestamp.\nPrimary keys advanced.\nIndexes created on ids and dates.'
     );
   } catch (error) {
     console.log(`Failed to create database ${process.env.PGDATABASE}:`, error);

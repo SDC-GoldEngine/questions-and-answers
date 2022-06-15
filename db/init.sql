@@ -32,15 +32,15 @@ CREATE TABLE IF NOT EXISTS answers_photos(
 );
 
 COPY questions (id, product_id, body, date, name, email, reported, helpfulness)
-  FROM '/data/questions.csv'
+  FROM '/tmp/data/questions.csv'
   WITH CSV HEADER;
 
 COPY answers (id, question_id, body, date, name, email, reported, helpfulness)
-  FROM '/data/answers.csv'
+  FROM '/tmp/data/answers.csv'
   WITH CSV HEADER;
 
 COPY answers_photos (id, answer_id, url)
-  FROM '/data/answers_photos.csv'
+  FROM '/tmp/data/answers_photos.csv'
   WITH CSV HEADER;
 
 ALTER TABLE questions

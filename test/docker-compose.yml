@@ -11,4 +11,4 @@ services:
     - 54310:5432
   volumes:
     - ./../db/init.sql:/docker-entrypoint-initdb.d/init.sql
-    - ./data:/data
+    - ./data:/tmp/data
