@@ -90,6 +90,10 @@ app.post('/qa/answers/:answer_id/report', async (req, res) => {
   res.sendStatus(204);
 });
 
+app.get(`/${process.env.LOADERIO_TOKEN}`, (req, res) => {
+  res.sendStatus(100);
+});
+
 app.all('*', (req, res) => {
   res.sendStatus(404);
 });
