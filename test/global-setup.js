@@ -3,11 +3,11 @@ const dockerCompose = require('docker-compose');
 const path = require('path');
 const { Client } = require('pg');
 
+process.env.PGHOST = 'localhost';
+process.env.PGPORT = 54310;
+process.env.PGDATABASE = 'qa';
 process.env.PGUSER = 'postgres';
 process.env.PGPASSWORD = 'pw';
-process.env.PGDATABASE = 'qa';
-process.env.PGPORT = 54310;
-process.env.DBPATH = '/data';
 process.env.PORT = 3010;
 
 const checkDatabase = async () => {
