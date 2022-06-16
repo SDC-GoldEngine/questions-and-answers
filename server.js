@@ -101,11 +101,9 @@ const server = app.listen(process.env.PORT, () => {
 });
 
 const closeServer = async () => {
-  await sql.end();
+  await sql.end({ timeout: 0.1 });
   await new Promise((resolve) => {
-    server.close(() => {
-      resolve();
-    });
+    server.close(resolve);
   });
 };
 
