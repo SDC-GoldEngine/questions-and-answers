@@ -1,8 +1,7 @@
-const db = require('../db');
+const sql = require('../db');
 
 module.exports.queryQuestionsByProductId = async (productId, count, page) => {
-  const questions = await db.query(
-    `
+  return await sql`
     SELECT 
       q.product_id,
       q.id AS question_id,
@@ -20,11 +19,11 @@ module.exports.queryQuestionsByProductId = async (productId, count, page) => {
     FROM (
       SELECT * FROM questions
         WHERE
-          product_id = $1
+          product_id = ${productId}
           AND reported = FALSE
       ORDER BY date DESC, id ASC
-      LIMIT $2
-      OFFSET $3
+      LIMIT ${count}
+      OFFSET ${(page - 1) * count}
     ) q
     LEFT JOIN (
       SELECT * FROM answers
@@ -39,16 +38,11 @@ module.exports.queryQuestionsByProductId = async (productId, count, page) => {
       a.date DESC,
       a.id ASC,
       ap.id ASC;
-  `,
-    [productId, count, (page - 1) * count],
-  );
-
-  return questions.rows;
+  `;
 };
 
 module.exports.queryAnswersByQuestionId = async (questionId, count, page) => {
-  const answers = await db.query(
-    `
+  return await sql`
     SELECT 
       a.id AS answer_id,
       a.body,
@@ -58,11 +52,11 @@ module.exports.queryAnswersByQuestionId = async (questionId, count, page) => {
       ap.id,
       ap.url
     FROM (SELECT * FROM answers
-      WHERE question_id = $1
+      WHERE question_id = ${questionId}
         AND reported = FALSE
       ORDER BY date DESC, id ASC
-      LIMIT $2
-      OFFSET $3
+      LIMIT ${count}
+      OFFSET ${(page - 1) * count}
     ) a
     LEFT JOIN answers_photos ap
       ON ap.answer_id = a.id
@@ -70,39 +64,29 @@ module.exports.queryAnswersByQuestionId = async (questionId, count, page) => {
       a.date DESC,
       a.id ASC,
       ap.id ASC;
-    `,
-    [questionId, count, (page - 1) * count],
-  );
-
-  return answers.rows;
+  `;
 };
 
 module.exports.insertQuestion = async (productId, body, name, email) => {
-  const result = await db.query(
-    `
+  return await sql`
     INSERT INTO questions (
       product_id,
       body,
       name,
       email
-    ) VALUES ($1, $2, $3, $4);
-    `,
-    [productId, body, name, email],
-  );
-
-  return result.rowCount;
+    ) VALUES (${productId}, ${body}, ${name}, ${email});
+    `;
 };
 
 module.exports.insertAnswer = async (questionId, body, name, email, photos) => {
-  const result = await db.query(
-    `
+  return await sql`
     WITH inserted_answer AS (
       INSERT INTO answers (
         question_id,
         body,
         name,
         email
-      ) VALUES ($1, $2, $3, $4)
+      ) VALUES (${questionId}, ${body}, ${name}, ${email})
       RETURNING id
     )
     INSERT INTO answers_photos (
@@ -112,36 +96,22 @@ module.exports.insertAnswer = async (questionId, body, name, email, photos) => {
     SELECT * FROM
       (SELECT id AS answer_id FROM inserted_answer) ia
       CROSS JOIN
-      unnest($5::text[]) url;
-    `,
-    [questionId, body, name, email, photos],
-  );
-
-  return result.rowCount;
+      unnest(${photos}::text[]) url;
+  `;
 };
 
 module.exports.incrementHelpfulness = async (table, id) => {
-  const result = await db.query(
-    `
-    UPDATE ${table}
+  return await sql`
+    UPDATE ${sql(table)}
       SET helpfulness = helpfulness + 1
-      WHERE id = $1;
-  `,
-    [id],
-  );
-
-  return result.rowCount;
+      WHERE id = ${id};
+  `;
 };
 
 module.exports.report = async (table, id) => {
-  const result = await db.query(
-    `
-    UPDATE ${table}
+  return await sql`
+    UPDATE ${sql(table)}
       SET reported = TRUE
-      WHERE id = $1;
-  `,
-    [id],
-  );
-
-  return result.rowCount;
+      WHERE id = ${id};
+  `;
 };
