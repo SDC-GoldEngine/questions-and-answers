@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const controller = require('./questions');
-const closeDbPool = require('./db').end;
+const sql = require('./db');
 
 const app = express();
 
@@ -101,7 +101,7 @@ const server = app.listen(process.env.PORT, () => {
 });
 
 const closeServer = async () => {
-  await closeDbPool();
+  await sql.end();
   await new Promise((resolve) => {
     server.close(() => {
       resolve();

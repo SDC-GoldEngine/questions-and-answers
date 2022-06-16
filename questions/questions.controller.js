@@ -72,7 +72,7 @@ module.exports.getQuestions = async (context) => {
   const rows = await dal.queryQuestionsByProductId(
     context.productId,
     context.count,
-    context.page,
+    context.page
   );
 
   return {
@@ -85,7 +85,7 @@ module.exports.getAnswers = async (context) => {
   const rows = await dal.queryAnswersByQuestionId(
     context.questionId,
     context.count,
-    context.page,
+    context.page
   );
 
   return {
@@ -96,21 +96,25 @@ module.exports.getAnswers = async (context) => {
   };
 };
 
-module.exports.addQuestion = async (context) => await dal.insertQuestion(
-  context.productId,
-  context.body,
-  context.name,
-  context.email,
-);
+module.exports.addQuestion = async (context) =>
+  await dal.insertQuestion(
+    context.productId,
+    context.body,
+    context.name,
+    context.email
+  );
 
-module.exports.addAnswer = async (context) => await dal.insertAnswer(
-  context.questionId,
-  context.body,
-  context.name,
-  context.email,
-  context.photos,
-);
+module.exports.addAnswer = async (context) =>
+  await dal.insertAnswer(
+    context.questionId,
+    context.body,
+    context.name,
+    context.email,
+    context.photos
+  );
 
-module.exports.markHelpful = async (context) => await dal.incrementHelpfulness(context.table, context.id);
+module.exports.markHelpful = async (context) =>
+  await dal.incrementHelpfulness(context.table, context.id);
 
-module.exports.markReported = async (context) => await dal.report(context.table, context.id);
+module.exports.markReported = async (context) =>
+  await dal.report(context.table, context.id);
