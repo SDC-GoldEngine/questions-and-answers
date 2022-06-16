@@ -1,7 +1,6 @@
 require('dotenv').config();
 const dockerCompose = require('docker-compose');
 const path = require('path');
-const { Client } = require('pg');
 
 process.env.PGHOST = 'localhost';
 process.env.PGPORT = 54310;
@@ -10,15 +9,24 @@ process.env.PGUSER = 'postgres';
 process.env.PGPASSWORD = 'pw';
 process.env.PORT = 3010;
 
+const postgres = require('postgres');
+
+const sql = postgres();
+
 const checkDatabase = async () => {
   let connected = false;
   let timeoutReached = false;
 
-  const getClient = async () => {
+  const checkConnection = async () => {
     try {
-      const client = new Client();
-      await client.connect();
-      await client.end();
+      await Promise.all(
+        ['questions', 'answers', 'answers_photos'].map(async (table) => {
+          const result = await sql`SELECT * FROM ${sql(table)} LIMIT 1`;
+          if (result.length === 0) {
+            throw new Error();
+          }
+        })
+      );
       connected = true;
       console.log('Connected to database!');
     } catch (error) {
@@ -31,11 +39,11 @@ const checkDatabase = async () => {
       console.log('Unable to connect to database!');
     }
     timeoutReached = true;
-  }, 5000);
+  }, 10000);
 
   console.log('Connecting to database...');
   while (!connected && !timeoutReached) {
-    await getClient();
+    await checkConnection();
   }
 };
 
