@@ -1,22 +1,38 @@
 require('dotenv').config();
-const express = require('express');
+const uWS = require('uWebSockets.js');
 const controller = require('./questions');
 const sql = require('./db');
+//const fastJSON = require('fast-json-stringify');
 
-const app = express();
+const app = uWS.App();
+const port = Number(process.env.PORT);
 
-app.use(express.json());
+app.get('/qa/questions', async (res, req) => {
+  // TODO: add validation and defaults
+  res.onAborted(() => {
+    res.aborted = true;
+  });
 
-// TODO: add validation and defaults
-app.get('/qa/questions', async (req, res) => {
   const context = {
-    productId: req.query.product_id,
-    page: req.query.page,
-    count: req.query.count,
+    productId: req.getQuery('product_id'),
+    page: req.getQuery('page'),
+    count: req.getQuery('count'),
   };
+
   const questions = await controller.getQuestions(context);
-  res.status(200).send(questions);
+
+  if (!res.aborted) {
+    res.writeStatus('200').end(JSON.stringify(questions));
+  }
 });
+
+app.listen(port, () => {
+  console.log(
+    `uWS Questions & Answers service listening on port ${process.env.PORT}...`
+  );
+});
+
+/*
 
 app.get('/qa/questions/:question_id/answers', async (req, res) => {
   const context = {
@@ -94,9 +110,9 @@ app.all('*', (req, res) => {
   res.sendStatus(404);
 });
 
-const server = app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT).then(() => {
   console.log(
-    `Questions & Answers service listening on port ${process.env.PORT}...`
+    `Questions & Answers service listening on port ${process.env.PORT}...`,
   );
 });
 
@@ -109,3 +125,5 @@ const closeServer = async () => {
 
 module.exports.app = app;
 module.exports.closeServer = closeServer;
+
+*/
