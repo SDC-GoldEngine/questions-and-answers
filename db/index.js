@@ -9,7 +9,7 @@ const sql = postgres({
     // check for existence of tables
     await Promise.all(
       ['questions', 'answers', 'answers_photos'].map(
-        async (table) => await sql`SELECT ${table}::regclass`
+        async (table) => sql`SELECT ${table}::regclass`
       )
     );
     console.log('Connected to database!');
