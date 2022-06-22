@@ -39,33 +39,51 @@ module.exports.queryQuestionsByProductId = async (productId, count, page) => {
       a.id ASC,
       ap.id ASC;
   `;
-};
+  });
 
-module.exports.queryAnswersByQuestionId = async (questionId, count, page) => {
-  return await sql`
-    SELECT 
-      a.id AS answer_id,
-      a.body,
-      a.date,
-      a.name AS answerer_name,
-      a.helpfulness,
-      ap.id,
-      ap.url
-    FROM (SELECT * FROM answers
-      WHERE question_id = ${questionId}
-        AND reported = FALSE
-      ORDER BY date DESC, id ASC
-      LIMIT ${count}
-      OFFSET ${(page - 1) * count}
-    ) a
-    LEFT JOIN answers_photos ap
-      ON ap.answer_id = a.id
-    ORDER BY
-      a.date DESC,
-      a.id ASC,
-      ap.id ASC;
-  `;
-};
+module.exports.queryAnswersByQuestionId = async (questionId, count, page) => sql`
+  SELECT 
+    json_build_object(
+      'question', ${questionId}::text,
+      'page', ${page}::integer,
+      'count', ${count}::integer,
+      'results', COALESCE(
+        json_agg(
+          json_build_object(
+            'answer_id', a.id,
+            'body', a.body,
+            'date', a.date,
+            'answerer_name', a.name,
+            'helpfulness', a.helpfulness,
+            'photos', COALESCE(p.photos, '[]'::json)
+          )
+        ),
+        '[]'::json
+      )
+    ) result
+  FROM (
+    SELECT * FROM answers
+    WHERE question_id = ${questionId}
+      AND reported = FALSE
+    ORDER BY date DESC, id ASC
+    LIMIT ${count}
+    OFFSET ${(page - 1) * count}
+  ) a
+  LEFT JOIN (
+    SELECT
+      ap.answer_id,
+      json_agg(
+        json_build_object(
+          'id', ap.id,
+          'url', ap.url
+        )
+      ) photos
+    FROM
+      answers_photos ap
+    GROUP BY ap.answer_id
+  ) p
+  ON p.answer_id = a.id;
+`.raw();
 
 module.exports.insertQuestion = async (productId, body, name, email) => {
   return await sql`
